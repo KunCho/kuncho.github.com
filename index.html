@@ -145,6 +145,160 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://kuncho.github.io/2020/10/30/Context%E6%80%BB%E7%BB%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/kuncho.github.com/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/kuncho.github.com/2020/10/30/Context%E6%80%BB%E7%BB%93/" class="post-title-link" itemprop="url">Context 总结</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-10-30 17:51:55 / Modified: 17:52:54" itemprop="dateCreated datePublished" datetime="2020-10-30T17:51:55+08:00">2020-10-30</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="Context是什么？"><a href="#Context是什么？" class="headerlink" title="Context是什么？"></a>Context是什么？</h3><p>Context 是 Android 中用的非常多的一种概念，常被翻译成上下文，这种概念在其他的技术中也有所使用。Android 官方对它的解释，可以理解为应用程序环境中全局信息的接口，它整合了许多系统级的服务，可以用来获取应用中的类、资源，以及可以进行应用程序级的调起操作，比如启动 Activity、Service等等，而且 Context 这个类是 abstract 的，不包含具体的函数实现。</p>
+<h3 id="Context的结构"><a href="#Context的结构" class="headerlink" title="Context的结构"></a>Context的结构</h3><p>Context 是维持 Android 程序中各组件能够正常工作的一个核心功能类。</p>
+<p>Context 本身是一个抽象类，其主要实现类为 ContextImpl，另外有直系子类两个：<br><code>ContextWrapper</code> <code>ContextThemeWrapper</code><br><img src="evernotecid://B825DE0A-5336-4F25-9E4F-D41D3D47DEB3/appyinxiangcom/5182838/ENResource/p318" alt="d4cf1f10d7847d4a30f346461efc866d.png"></p>
+<h5 id="ContextImpl类介绍"><a href="#ContextImpl类介绍" class="headerlink" title="ContextImpl类介绍"></a>ContextImpl类介绍</h5><p>ContextImpl 是 Context API 的常见实现，它为 Activity 和其他应用程序组件提供基本上下文对象，说的通俗一点就是 ContextImpl 实现了抽象类的方法，我们在使用 Context 的时候的方法就是它实现的。</p>
+<h5 id="ContextWrapper类介绍"><a href="#ContextWrapper类介绍" class="headerlink" title="ContextWrapper类介绍"></a>ContextWrapper类介绍</h5><p>ContextWrapper 类代理 Context 的实现，将其所有调用简单地委托给另一个 Context 对象（ContextImpl）,可以被分类为修饰行为而不更改原始 Context 的类，其实就 Context 类的修饰类。真正的实现类是 ContextImpl，ContextWrapper 里面的方法调用也是调用 ContextImpl 里面的方法。</p>
+<h5 id="ContextThemeWrapper"><a href="#ContextThemeWrapper" class="headerlink" title="ContextThemeWrapper"></a>ContextThemeWrapper</h5><p>就是一个带有主题的封装类，比 ContextWrapper 多了主题，它的一个直接子类就是 Activity。</p>
+<p>通过 Context 的继承关系图结合我们几个开发中比较熟悉的类，Activity、Service、Application，所以我们可以认为 Context 一共有三种类型，分别是 Application、Activity 和Service，他们分别承担不同的作用，但是都属于 Context，而他们具有 Context 的功能则是由ContextImpl 类实现的。</p>
+<h3 id="Context的数量"><a href="#Context的数量" class="headerlink" title="Context的数量"></a>Context的数量</h3><p>其实根据上面的 Context 类型我们就已经可以得出答案了。Context 一共有 Application、Activity 和 Service 三种类型，因此一个应用程序中 Context 数量的计算公式就可以这样写：</p>
+<blockquote>
+<p>Context数量 = Activity数量 + Service数量 + 1</p>
+</blockquote>
+<p>上面的1代表着 Application 的数量，因为一个应用程序中可以有多个 Activity 和多个 Service，但是只能有一个 Application。</p>
+<h3 id="Context的注意事项"><a href="#Context的注意事项" class="headerlink" title="Context的注意事项"></a>Context的注意事项</h3><p>Context 如果使用不恰当很容易引起内存泄露问题。</p>
+<p>最简单的例子比如说引用了 Context 的错误的单例模式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public class Singleton &#123;</span><br><span class="line">    private static Singleton instance;</span><br><span class="line">    private Context mContext;</span><br><span class="line"></span><br><span class="line">    private Singleton(Context context) &#123;</span><br><span class="line">        this.mContext &#x3D; context;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static Synchronized Singleton getInstance(Context context) &#123;</span><br><span class="line">        if (instance &#x3D;&#x3D; null) &#123;</span><br><span class="line">            instance &#x3D; new Singleton(context);</span><br><span class="line">        &#125;</span><br><span class="line">        return instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>上述代码中，我们使得了一个静态对象持有 Context 对象，而静态数据的生命一般是长于普通数据的，因此当 Context 被销毁（例如假设这里持有的是 Activity 的上下文对象，当 Activity 被销毁的时候），因为 instance 仍然持有 Context 的引用，导致 Context 虽然被销毁了但是却无法被GC机制回收，因为造成内存泄露问题。</p>
+<p>而一般因为Context所造成的内存泄漏，基本上都是 Context 已经被销毁后，却因为被引用导致GC回收失败。但是 Application 的 Context 对象却会随着当前进程而一直存在，所以使用 Context 是应该注意：</p>
+<ul>
+<li>当 Application 的 Context 能搞定的情况下，并且生命周期长的对象，优先使用 Application 的 Context。</li>
+<li>不要让生命周期长于 Activity 的对象持有到 Activity 的引用。</li>
+<li>尽量不要在 Activity 中使用非静态内部类，因为非静态内部类会隐式持有外部类实例的引用，如果使用静态内部类，将外部实例引用作为弱引用持有。</li>
+</ul>
+<h3 id="如何正确回复面试题"><a href="#如何正确回复面试题" class="headerlink" title="如何正确回复面试题"></a>如何正确回复面试题</h3><ol>
+<li>面试官：Android 中有哪些类型的 Context，它们有什么区别？</li>
+</ol>
+<p>应用有 Activity 、Service、Application 这些 Context 。<br>共同点：它们都是 ContextWrapper 的子类，而 ContextWrapper 的成员变量 mBase 可以用来存放系统实现的  ContextImpl，这样我们在调用如 Activity 的 Context 方法时，都是通过静态代理的方式最终调用到 ContextImpl 的方法。我们调用 ContextWrapper 的 getBaseContext 方法就能拿到 ContextImpl 的实例。</p>
+<p>不同点：它们有各自不同的生命周期；在功能上，只有  Activity 显示界面，正因为如此，Activity 继承的是 ContextThemeWrapper 提供一些关于主题，界面显示的能力，间接继承了 ContextWrapper ；而 Applicaiton 、Service 都是直接继承  ContextWrapper ，所以我们要记住一点，凡是跟 UI 有关的，都应该用 Activity 作为 Context 来处理，否则要么会报错，要么 UI 会使用系统默认的主题。<br>2. 面试官：一个APP应用里有几个 Context 呢？</p>
+<p>Context 一共有 Application 、Activity 和 Service 三种类型，因此一个应用程序中 Context 数量的计算公式就可以这样写：</p>
+<blockquote>
+<p>Context 数量 = Activity 数量 + Service 数量 + 1</p>
+</blockquote>
+<p>上面的1代表着 Application 的数量，因为一个应用程序中可以有多个Activity和多个 Service，但是只能有一个 Application。</p>
+<ol start="3">
+<li>面试官：Android 开发过程中，Context 有什么用？<br>Context 就相当于 Application 的大管家，主要负责：</li>
+</ol>
+<ul>
+<li>四大组件的交互，包括启动 Activity、Broadcast、Service，获取 ContentResolver 等。</li>
+<li>获取系统/应用资源，包括 AssetManager、PackageManager、Resources、System Service 以及 color、string、drawable 等。</li>
+<li>文件，包括获取缓存文件夹、删除文件、SharedPreference 相关等。</li>
+<li>数据库（SQLite）相关，包括打开数据库、删除数据库、获取数据库路径等。</li>
+</ul>
+<p>其它辅助功能，比如设置 ComponentCallbacks，即监听配置信息改变、内存不足等事件的发生。</p>
+<ol start="4">
+<li>面试官：ContextImpl 实例是什么时候生成的，在 Activity 的 onCreate 里能拿到这个实例吗？</li>
+</ol>
+<p>可以。我们开发的时候，经常会在 onCreate 里拿到 Application，如果用 getApplicationContext 取，最终调用的就是 ContextImpl 的 getApplicationContext 方法，如果调用的是 getApplication 方法，虽然没调用到 ContextImpl ，但是返回 Activity 的成员变量 mApplication 和 ContextImpl 的初始化时机是一样的。</p>
+<p>再说下它的原理，Activity 真正开始启动是从 ActivityThread.performLaunchActivity 开始的，这个方法做了这些事：</p>
+<ul>
+<li>通过 ClassLoader 去加载目标 Activity 的类，从而创建 对象。</li>
+<li>从 packageInfo 里获取 Application 对象。</li>
+<li>调用 createBaseContextForActivity 方法去创建 ContextImpl。</li>
+<li>调用 activity.attach ( contextImpl , application) 这个方法就把 Activity 和 Application 以及 ContextImpl 关联起来了，就是上面结论里说的时机一样。</li>
+<li>最后调用 activity.onCreate 生命周期回调。</li>
+</ul>
+<p>通过以上的分析，我们知道了 Activity 是先创建类，再初始化 Context ，最后调用 onCreate , 从而得出问题的答案。不仅 Activity 是这样， Application 、Service 里的 Context 初始化也都是这样的。</p>
+<ol start="5">
+<li>面试官：ContextImpl 、ContextWrapper、ContextThemeWrapper 有什么区别？</li>
+</ol>
+<ul>
+<li>ContextWrapper、ContextThemeWrapper 都是 Context 的代理类，二者的区别在于 ContextThemeWrapper 有自己的 Theme 以及 Resource，并且 Resource 可以传入自己的配置初始化。</li>
+<li>ContextImpl 是 Context 的主要实现类，Activity、Service 和 Application 的 Base Context 都是由它创建的，即 ContextWrapper 代理的就是 ContextImpl 对象本身。</li>
+<li>ContextImpl 和 ContextThemeWrapper 的主要区别是， ContextThemeWrapper 有 Configuration 对象，Resource 可以根据这个对象来初始化。</li>
+<li>Service 和 Application 使用同一个 Recource，和 Activity 使用的 Resource 不同。</li>
+</ul>
+<ol start="6">
+<li>Activity Context、Service Context、Application Context、Base Context 有什么区别？</li>
+</ol>
+<ul>
+<li>Activity、Service 和 Application 的 Base Context 都是由 ContextImpl 创建的，且创建的都是 ContextImpl 对象，即它们都是 ContextImpl 的代理类 。</li>
+<li>Service 和 Application 使用同一个 Recource，和 Activity 使用的 Resource 不同。</li>
+<li>getApplicationContext 返回的就是 Application 对象本身，一般情况下它对应的是应用本身的 Application 对象，但也可能是系统的某个 Application。</li>
+</ul>
+<ol start="7">
+<li>面试官：为什么不推荐使用 BaseContext？</li>
+</ol>
+<ul>
+<li>对于 Service 和 Application 而言，不推荐使用 Base Context，是担心用户修改了 Base Context 而导致错误的发生。</li>
+<li>对于  Activity 而言，除了担心用户的修改之外，Base Context 和 Activity 本身对于 Reource 以及 Theme  的相关行为是不同的（如果应用了 Configuration 的话），使用 Base Context 可能出现无法预期的现象。</li>
+</ul>
+<ol start="8">
+<li>面试官：ContentProvider 里的 Context 是什么时候初始化的呢？<br>ContentProvider 本身不是 Context ，但是它有一个成员变量  mContext ，是通过构造函数传入的。那么这个问题就变成了，ContentProvider 什么时候创建。应用创建 Application  是通过调用 ActivityThread.handleBindApplication 方法，这个方法的相关流程有：</li>
+</ol>
+<ul>
+<li>创建 Application</li>
+<li>初始化 Application 的 Context</li>
+<li>调用 installContentProviders 并传入刚创建好的 Application 来创建 ContentProvider</li>
+<li>调用 Application.onCreate</li>
+</ul>
+<p>得出结论，ContentProvider 的 Context 是在 Applicaiton 创建之后，但是 onCreate 方法调用之前初始化的。</p>
+<ol start="9">
+<li>面试官：BroadcastReceiver 里的 Context是哪来的?<br>广播接收器，分动态注册和静态注册。</li>
+</ol>
+<ul>
+<li><strong>动态注册很简单</strong>，在调用  Context.registerReceiver 动态注册 BroadcastReceiver 时，会生成一个  ReceiverDispatcher 会持有这个 Context ，这样当有广播分发到它时，调用 onReceiver 方法就可以把  Context 传递过去了。当然，这也是为什么不用的时候要 unregisterReceiver 取消注册，不然这个 Context  就泄漏了哦。</li>
+<li><strong>静态注册时</strong>，在分发的时候最终调用的是 ActivityThread.handleReceiver  ，这个方法直接通过 ClassLoader 去创建一个 BroadcastReceiver 的对象，而传递给 onReceiver 方法的  Context 则是通过 context.getReceiverRestrictedContext() 生成的一个以 Application 为  mBase 的 ContextWrapper。注意这边的 Context 不是 Application 。</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="https://kuncho.github.io/2020/10/29/Android%20%E4%BA%8B%E4%BB%B6%E5%88%86%E5%8F%91%E6%9C%BA%E5%88%B6%E7%9A%84%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -556,7 +710,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/kuncho.github.com/archives/">
         
-          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-count">5</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
