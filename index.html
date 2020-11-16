@@ -1,189 +1,79 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
+<!DOCTYPE HTML>
+<html>
 <head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.2.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/Blog/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/Blog/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/Blog/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/Blog/images/logo.svg" color="#222">
-
-<link rel="stylesheet" href="/Blog/css/main.css">
-
-
-<link rel="stylesheet" href="/Blog/lib/font-awesome/css/all.min.css">
-
-<script id="hexo-configurations">
-    var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"kuncho.github.io","root":"/Blog/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
-  </script>
-
-  <meta property="og:type" content="website">
-<meta property="og:title" content="前端日常开发记录">
-<meta property="og:url" content="https://kuncho.github.io/index.html">
-<meta property="og:site_name" content="前端日常开发记录">
-<meta property="og:locale" content="zh_CN">
-<meta name="twitter:card" content="summary">
-
-<link rel="canonical" href="https://kuncho.github.io/">
-
-
-<script id="page-configurations">
-  // https://hexo.io/docs/variables.html
-  CONFIG.page = {
-    sidebar: "",
-    isHome : true,
-    isPost : false,
-    lang   : 'zh-CN'
-  };
-</script>
-
+  <meta charset="utf-8">
+  
   <title>前端日常开发记录</title>
+
   
 
+  
+
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  
+
+  <meta property="og:site_name" content="前端日常开发记录"/>
+
+  
+  <meta property="og:image" content="/Blog/favicon.ico"/>
+  
+
+  <link href="/Blog/favicon.ico" rel="icon">
+  <link rel="alternate" href="/Blog/atom.xml" title="前端日常开发记录" type="application/atom+xml">
+  <link rel="stylesheet" href="/Blog/css/style.css" media="screen" type="text/css">
+<meta name="generator" content="Hexo 5.2.0"></head>
 
 
+<body>
+<div class="blog">
+  <div class="content">
 
-
-
-  <noscript>
-  <style>
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
-
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
-  }
-
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
-
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
-    <div class="headband"></div>
-
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
-    </div>
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/Blog/">前端日常开发记录</a>
+    </h1>
+    <p class="site-description"></p>
   </div>
-
-  <div class="site-meta">
-
-    <a href="/Blog/" class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">前端日常开发记录</h1>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-  </div>
-
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger">
-    </div>
-  </div>
-</div>
-
-
-
-
-<nav class="site-nav">
-  <ul id="menu" class="main-menu menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/Blog/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/Blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
-
-  </li>
-  </ul>
-</nav>
-
-
-
-
-</div>
-    </header>
-
-    
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
-
-
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-
-          <div class="content index posts-expand">
-            
+  <nav class="site-navigation">
+    <ul>
       
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    
+  <article>
+
   
+    
+    <h3 class="article-title"><a href="/Blog/2020/11/16/8081端口被占用/"><span>8081端口被占用</span></a></h3>
+    
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://kuncho.github.io/2020/11/16/8081%E7%AB%AF%E5%8F%A3%E8%A2%AB%E5%8D%A0%E7%94%A8/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/Blog/images/avatar.gif">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/Blog/2020/11/16/8081端口被占用/" rel="bookmark">
+        <time class="entry-date published" datetime="2020-11-16T06:30:51.865Z">
+          2020-11-16
+        </time>
+      </a>
     </span>
+  </div>
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="前端日常开发记录">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/Blog/2020/11/16/8081%E7%AB%AF%E5%8F%A3%E8%A2%AB%E5%8D%A0%E7%94%A8/" class="post-title-link" itemprop="url">8081端口被占用</a>
-        </h2>
 
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
+  
 
-              <time title="创建时间：2020-11-16 14:30:51 / 修改时间：14:35:57" itemprop="dateCreated datePublished" datetime="2020-11-16T14:30:51+08:00">2020-11-16</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
+  <div class="article-content">
+    <div class="entry">
       
-          <ol>
+        <ol>
 <li><p>控制台错误情况</p>
 <p><code>ERROR  Metro Bundler can&#39;t listen on port 8081</code></p>
 </li>
@@ -208,61 +98,55 @@
       
     </div>
 
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+  </div>
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://kuncho.github.io/2020/11/16/CSS%E4%B8%ADmargin%E5%92%8Cpadding%E7%9A%84%E7%94%A8%E6%B3%95/">
+  <div class="article-footer">
+    <div class="article-meta pull-left">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/Blog/images/avatar.gif">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/Blog/tags/React-Native/">React-Native</a>
     </span>
+    
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="前端日常开发记录">
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/Blog/2020/11/16/CSS中margin和padding的用法/"><span>CSS中margin和padding的用法</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/Blog/2020/11/16/CSS中margin和padding的用法/" rel="bookmark">
+        <time class="entry-date published" datetime="2020-11-16T06:18:49.020Z">
+          2020-11-16
+        </time>
+      </a>
     </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/Blog/2020/11/16/CSS%E4%B8%ADmargin%E5%92%8Cpadding%E7%9A%84%E7%94%A8%E6%B3%95/" class="post-title-link" itemprop="url">CSS中margin和padding的用法</a>
-        </h2>
+  </div>
 
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-11-16 14:18:49 / 修改时间：14:24:26" itemprop="dateCreated datePublished" datetime="2020-11-16T14:18:49+08:00">2020-11-16</time>
-            </span>
+  
 
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
+  <div class="article-content">
+    <div class="entry">
       
-          <p>CSS中，margin外间距分别一个值、两个值、三个值、四个值代码的意思：</p>
+        <p>CSS中，margin外间距分别一个值、两个值、三个值、四个值代码的意思：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">margin:10px;&#x2F;&#x2F;上、右、下、左</span><br><span class="line">margin:10px 5px;&#x2F;&#x2F;上下：10px,右左：5px</span><br><span class="line">margin:10px 5px 15px;&#x2F;&#x2F;上10px、右和左5px、下15px</span><br><span class="line">margin:10px 5px 15px 20px;&#x2F;&#x2F;上10px、右5px、下15px、左20px</span><br></pre></td></tr></table></figure>
 
 <p>CSS中，padding内间距分别一个值、两个值、三个值、四个值代码的意思：</p>
@@ -270,61 +154,55 @@
       
     </div>
 
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+  </div>
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://kuncho.github.io/2020/10/30/Context%E6%80%BB%E7%BB%93/">
+  <div class="article-footer">
+    <div class="article-meta pull-left">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/Blog/images/avatar.gif">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/Blog/tags/CSS/">CSS</a>
     </span>
+    
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="前端日常开发记录">
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/Blog/2020/10/30/Context总结/"><span>Context 总结</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/Blog/2020/10/30/Context总结/" rel="bookmark">
+        <time class="entry-date published" datetime="2020-10-30T09:51:55.431Z">
+          2020-10-30
+        </time>
+      </a>
     </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/Blog/2020/10/30/Context%E6%80%BB%E7%BB%93/" class="post-title-link" itemprop="url">Context 总结</a>
-        </h2>
+  </div>
 
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-10-30 17:51:55 / 修改时间：21:21:08" itemprop="dateCreated datePublished" datetime="2020-10-30T17:51:55+08:00">2020-10-30</time>
-            </span>
+  
 
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
+  <div class="article-content">
+    <div class="entry">
       
-          <h3 id="Context是什么？"><a href="#Context是什么？" class="headerlink" title="Context是什么？"></a>Context是什么？</h3><p>Context 是 Android 中用的非常多的一种概念，常被翻译成上下文，这种概念在其他的技术中也有所使用。Android 官方对它的解释，可以理解为应用程序环境中全局信息的接口，它整合了许多系统级的服务，可以用来获取应用中的类、资源，以及可以进行应用程序级的调起操作，比如启动 Activity、Service等等，而且 Context 这个类是 abstract 的，不包含具体的函数实现。</p>
+        <h3 id="Context是什么？"><a href="#Context是什么？" class="headerlink" title="Context是什么？"></a>Context是什么？</h3><p>Context 是 Android 中用的非常多的一种概念，常被翻译成上下文，这种概念在其他的技术中也有所使用。Android 官方对它的解释，可以理解为应用程序环境中全局信息的接口，它整合了许多系统级的服务，可以用来获取应用中的类、资源，以及可以进行应用程序级的调起操作，比如启动 Activity、Service等等，而且 Context 这个类是 abstract 的，不包含具体的函数实现。</p>
 <h3 id="Context的结构"><a href="#Context的结构" class="headerlink" title="Context的结构"></a>Context的结构</h3><p>Context 是维持 Android 程序中各组件能够正常工作的一个核心功能类。</p>
 <p>Context 本身是一个抽象类，其主要实现类为 ContextImpl，另外有直系子类两个：<br><code>ContextWrapper</code> <code>ContextThemeWrapper</code><br><img src="evernotecid://B825DE0A-5336-4F25-9E4F-D41D3D47DEB3/appyinxiangcom/5182838/ENResource/p318" alt="d4cf1f10d7847d4a30f346461efc866d.png"></p>
 <h5 id="ContextImpl类介绍"><a href="#ContextImpl类介绍" class="headerlink" title="ContextImpl类介绍"></a>ContextImpl类介绍</h5><p>ContextImpl 是 Context API 的常见实现，它为 Activity 和其他应用程序组件提供基本上下文对象，说的通俗一点就是 ContextImpl 实现了抽象类的方法，我们在使用 Context 的时候的方法就是它实现的。</p>
@@ -424,67 +302,55 @@
       
     </div>
 
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+  </div>
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://kuncho.github.io/2020/10/29/Android%20%E4%BA%8B%E4%BB%B6%E5%88%86%E5%8F%91%E6%9C%BA%E5%88%B6%E7%9A%84%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0/">
+  <div class="article-footer">
+    <div class="article-meta pull-left">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/Blog/images/avatar.gif">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/Blog/tags/Android/">Android</a>
     </span>
+    
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="前端日常开发记录">
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/Blog/2020/10/29/Android 事件分发机制的设计与实现/"><span>Android 事件分发机制的设计与实现</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/Blog/2020/10/29/Android 事件分发机制的设计与实现/" rel="bookmark">
+        <time class="entry-date published" datetime="2020-10-29T06:59:13.271Z">
+          2020-10-29
+        </time>
+      </a>
     </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/Blog/2020/10/29/Android%20%E4%BA%8B%E4%BB%B6%E5%88%86%E5%8F%91%E6%9C%BA%E5%88%B6%E7%9A%84%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0/" class="post-title-link" itemprop="url">Android 事件分发机制的设计与实现</a>
-        </h2>
+  </div>
 
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2020-10-29 14:59:13" itemprop="dateCreated datePublished" datetime="2020-10-29T14:59:13+08:00">2020-10-29</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-10-30 21:21:15" itemprop="dateModified" datetime="2020-10-30T21:21:15+08:00">2020-10-30</time>
-              </span>
+  
 
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
+  <div class="article-content">
+    <div class="entry">
       
-          <p>完整的掌握 Android 事件分发体系并非易事，其整个流程涉及到了 <strong>系统启动流程（SystemServer）</strong>、<strong>输入管理(InputManager)**、</strong>系统服务和UI的通信（ViewRootImpl + Window + WindowManagerService）<strong>、</strong>View层级**的 事件分发机制 等等一系列的环节。</p>
+        <p>完整的掌握 Android 事件分发体系并非易事，其整个流程涉及到了 <strong>系统启动流程（SystemServer）</strong>、<strong>输入管理(InputManager)**、</strong>系统服务和UI的通信（ViewRootImpl + Window + WindowManagerService）<strong>、</strong>View层级**的 事件分发机制 等等一系列的环节。</p>
 <p>事件拦截机制 是基于View层级 事件分发机制 的一个进阶性的知识点，本文将对其进行更细致化的讲解。<br>事件拦截机制 本身就相对比较独立，因此本文不需要读者有 事件分发机制 相关的预备知识，对后者感兴趣的读者可以参考以下资料：</p>
 <p>反思 | Android 事件分发机制的设计与实现</p>
 <h3 id="从事件序列说起"><a href="#从事件序列说起" class="headerlink" title="从事件序列说起"></a>从事件序列说起</h3><ol>
@@ -546,67 +412,55 @@
       
     </div>
 
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+  </div>
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://kuncho.github.io/2020/10/29/Kotlin%E7%9A%84%E5%87%A0%E4%B8%AA%E5%B8%B8%E7%94%A8%E5%85%B3%E9%94%AE%E5%AD%97/">
+  <div class="article-footer">
+    <div class="article-meta pull-left">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/Blog/images/avatar.gif">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/Blog/tags/Android/">Android</a>
     </span>
+    
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="前端日常开发记录">
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/Blog/2020/10/29/Kotlin的几个常用关键字/"><span>Kotlin的几个常用关键字</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/Blog/2020/10/29/Kotlin的几个常用关键字/" rel="bookmark">
+        <time class="entry-date published" datetime="2020-10-29T06:38:17.797Z">
+          2020-10-29
+        </time>
+      </a>
     </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/Blog/2020/10/29/Kotlin%E7%9A%84%E5%87%A0%E4%B8%AA%E5%B8%B8%E7%94%A8%E5%85%B3%E9%94%AE%E5%AD%97/" class="post-title-link" itemprop="url">Kotlin的几个常用关键字</a>
-        </h2>
+  </div>
 
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2020-10-29 14:38:17" itemprop="dateCreated datePublished" datetime="2020-10-29T14:38:17+08:00">2020-10-29</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-10-30 21:21:02" itemprop="dateModified" datetime="2020-10-30T21:21:02+08:00">2020-10-30</time>
-              </span>
+  
 
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
+  <div class="article-content">
+    <div class="entry">
       
-          <p><strong>1. object 用于创建单例模式</strong></p>
+        <p><strong>1. object 用于创建单例模式</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">object Resource &#123;</span><br><span class="line">    val name &#x3D; &quot;Rocker&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><strong>2. lazy 、lateinit 用于延迟初始化，第一次使用时再实例化</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">val name: String by lazy &#123;</span><br><span class="line">    &quot;Rocker&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">lateinit var name:String;</span><br><span class="line">fun testName()&#123;</span><br><span class="line">  name &#x3D; &quot;Rocker&quot;</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F;两者区别：</span><br><span class="line">by lazy  修饰val的变量</span><br><span class="line">lateinit 修饰var的变量，且变量是非空的类型</span><br></pre></td></tr></table></figure>
@@ -636,67 +490,55 @@
       
     </div>
 
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+  </div>
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://kuncho.github.io/2020/10/29/React%20class%20&%20function%20component%20%E7%9A%84%E5%8C%BA%E5%88%AB/">
+  <div class="article-footer">
+    <div class="article-meta pull-left">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/Blog/images/avatar.gif">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/Blog/tags/kotlin/">kotlin</a>
     </span>
+    
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="前端日常开发记录">
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/Blog/2020/10/29/React class & function component 的区别/"><span>function和class component</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/Blog/2020/10/29/React class & function component 的区别/" rel="bookmark">
+        <time class="entry-date published" datetime="2020-10-29T05:35:56.423Z">
+          2020-10-29
+        </time>
+      </a>
     </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/Blog/2020/10/29/React%20class%20&%20function%20component%20%E7%9A%84%E5%8C%BA%E5%88%AB/" class="post-title-link" itemprop="url">function和class component</a>
-        </h2>
+  </div>
 
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2020-10-29 13:35:56" itemprop="dateCreated datePublished" datetime="2020-10-29T13:35:56+08:00">2020-10-29</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-10-30 21:20:57" itemprop="dateModified" datetime="2020-10-30T21:20:57+08:00">2020-10-30</time>
-              </span>
+  
 
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
+  <div class="article-content">
+    <div class="entry">
       
-          <h3 id="function和class-component"><a href="#function和class-component" class="headerlink" title="function和class component"></a>function和class component</h3><p>首先看下function component：</p>
+        <h3 id="function和class-component"><a href="#function和class-component" class="headerlink" title="function和class component"></a>function和class component</h3><p>首先看下function component：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function Welcome(props) &#123;</span><br><span class="line">  return &lt;h1&gt;Hello, &#123;props.name&#125;&lt;&#x2F;h1&gt;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>它就是一个函数接受一个props参数返回了一个jsx语法的标签，接下来看下class 语法的component</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">class Welcome extends React.Component &#123;</span><br><span class="line">  render() &#123;</span><br><span class="line">    return &lt;h1&gt;Hello, &#123;this.props.name&#125;&lt;&#x2F;h1&gt;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -710,67 +552,55 @@
       
     </div>
 
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+  </div>
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://kuncho.github.io/2020/10/13/hello-world/">
+  <div class="article-footer">
+    <div class="article-meta pull-left">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/Blog/images/avatar.gif">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/Blog/tags/react/">react</a>
     </span>
+    
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="前端日常开发记录">
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/Blog/2020/10/13/hello-world/"><span>Hello World</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/Blog/2020/10/13/hello-world/" rel="bookmark">
+        <time class="entry-date published" datetime="2020-10-13T08:45:10.655Z">
+          2020-10-13
+        </time>
+      </a>
     </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/Blog/2020/10/13/hello-world/" class="post-title-link" itemprop="url">Hello World</a>
-        </h2>
+  </div>
 
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2020-10-13 16:45:10" itemprop="dateCreated datePublished" datetime="2020-10-13T16:45:10+08:00">2020-10-13</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-10-29 14:21:13" itemprop="dateModified" datetime="2020-10-29T14:21:13+08:00">2020-10-29</time>
-              </span>
+  
 
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
+  <div class="article-content">
+    <div class="entry">
       
-          <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
 <h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
 
 <p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
@@ -791,175 +621,43 @@
       
     </div>
 
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-
-  
-
-
-
-          </div>
-          
-
-<script>
-  window.addEventListener('tabs:register', () => {
-    let { activeClass } = CONFIG.comments;
-    if (CONFIG.comments.storage) {
-      activeClass = localStorage.getItem('comments_active') || activeClass;
-    }
-    if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
-      if (activeTab) {
-        activeTab.click();
-      }
-    }
-  });
-  if (CONFIG.comments.storage) {
-    window.addEventListener('tabs:click', event => {
-      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
-      localStorage.setItem('comments_active', commentClass);
-    });
-  }
-</script>
-
-        </div>
-          
-  
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
   </div>
 
-  <aside class="sidebar">
-    <div class="sidebar-inner">
+  <div class="article-footer">
+    <div class="article-meta pull-left">
 
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          文章目录
-        </li>
-        <li class="sidebar-nav-overview">
-          站点概览
-        </li>
-      </ul>
+    
 
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-      </div>
-      <!--/noindex-->
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <p class="site-author-name" itemprop="name"></p>
-  <div class="site-description" itemprop="description"></div>
-</div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/Blog/archives/">
-        
-          <span class="site-state-item-count">7</span>
-          <span class="site-state-item-name">日志</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-tags">
-            <a href="/Blog/tags/">
-        <span class="site-state-item-count">5</span>
-        <span class="site-state-item-name">标签</span></a>
-      </div>
-  </nav>
-</div>
-
-
-
-      </div>
+    
 
     </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
+
+    
+  </div>
+</article>
 
 
-      </div>
+
+
+<nav class="pagination">
+  
+  
+</nav>
     </main>
 
-    <footer class="footer">
-      <div class="footer-inner">
-        
-
-        
-
-<div class="copyright">
-  
-  &copy; 
-  <span itemprop="copyrightYear">2020</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder"></span>
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2020 前端日常开发记录
+    
+  </p>
+</footer>
+    
+    
+  </div>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
-  </div>
-
-        
-
-
-
-
-
-
-
-
-      </div>
-    </footer>
-  </div>
-
-  
-  <script src="/Blog/lib/anime.min.js"></script>
-  <script src="/Blog/lib/velocity/velocity.min.js"></script>
-  <script src="/Blog/lib/velocity/velocity.ui.min.js"></script>
-
-<script src="/Blog/js/utils.js"></script>
-
-<script src="/Blog/js/motion.js"></script>
-
-
-<script src="/Blog/js/schemes/muse.js"></script>
-
-
-<script src="/Blog/js/next-boot.js"></script>
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-  
-
 </body>
 </html>
