@@ -43,6 +43,14 @@
   <nav class="site-navigation">
     <ul>
       
+        <li><a href="/Blog/">主页</a></li>
+      
+        <li><a href="/Blog/archives">归档</a></li>
+      
+        <li><a href="/Blog/categories">分类</a></li>
+      
+        <li><a href="/Blog/tags">标签</a></li>
+      
     </ul>
   </nav>
 </header>
@@ -53,14 +61,14 @@
 
   
     
-    <h3 class="article-title"><a href="/Blog/2020/11/16/8081端口被占用/"><span>8081端口被占用</span></a></h3>
+    <h3 class="article-title"><a href="/Blog/2020/11/16/React class & function component 的区别/"><span>function和class component</span></a></h3>
     
   
 
   <div class="article-top-meta">
     <span class="posted-on">
-      <a href="/Blog/2020/11/16/8081端口被占用/" rel="bookmark">
-        <time class="entry-date published" datetime="2020-11-16T06:30:51.865Z">
+      <a href="/Blog/2020/11/16/React class & function component 的区别/" rel="bookmark">
+        <time class="entry-date published" datetime="2020-11-16T10:22:35.728Z">
           2020-11-16
         </time>
       </a>
@@ -73,27 +81,16 @@
   <div class="article-content">
     <div class="entry">
       
-        <ol>
-<li><p>控制台错误情况</p>
-<p><code>ERROR  Metro Bundler can&#39;t listen on port 8081</code></p>
-</li>
-<li><p>解决办法：kill 占用8081端口的其他应用</p>
-</li>
-</ol>
-<p>参考：<a target="_blank" rel="noopener" href="https://facebook.github.io/react-native/docs/troubleshooting.html">https://facebook.github.io/react-native/docs/troubleshooting.html</a></p>
-<ul>
-<li>a. 找到占用端口的应用</li>
-</ul>
-<p><code>$ sudo lsof -i :8081</code></p>
-<ul>
-<li>b. kill （40247 是应用的 PID）</li>
-</ul>
-<p><code>kill -9 40247</code></p>
-<ul>
-<li>c. 然后执行</li>
-</ul>
-<p><code>react-native start</code></p>
-<p>Android手机连接电脑无法load代码时在终端执行命令： <code>adb reverse tcp:8081 tcp:8081</code></p>
+        <h3 id="function和class-component"><a href="#function和class-component" class="headerlink" title="function和class component"></a>function和class component</h3><p>首先看下function component：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function Welcome(props) &#123;</span><br><span class="line">  return &lt;h1&gt;Hello, &#123;props.name&#125;&lt;&#x2F;h1&gt;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>它就是一个函数接受一个props参数返回了一个jsx语法的标签，接下来看下class 语法的component</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">class Welcome extends React.Component &#123;</span><br><span class="line">  render() &#123;</span><br><span class="line">    return &lt;h1&gt;Hello, &#123;this.props.name&#125;&lt;&#x2F;h1&gt;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这两个component是等效的。</p>
+<h3 id="function和class-component-的区别"><a href="#function和class-component-的区别" class="headerlink" title="function和class component 的区别"></a>function和class component 的区别</h3><p>1.syntax 语法：functional component语法更简单，只需要传入一个props参数，返回一个react片段。class component 要求先继承React.Component然后常见一个render方法，在render里面返回react片段。</p>
+<p>2.state 状态：因为function component 知识一个普通的函数所以不可以在其中用this.state , setState(),这也是它被叫做无状态组件的原因。所以一个组件需要用到状态的时候要用到class component。</p>
+<p>3.lifecycle hooks 生命周期：function component 不具有生命周期，因为所有的生命周期钩子函数均来自于React.Component。所以当一个组件需要生命周期钩子的时候我们也需要class component。</p>
+<h3 id="为什么要用function-component？"><a href="#为什么要用function-component？" class="headerlink" title="为什么要用function component？"></a>为什么要用function component？</h3><p>function component和class component 比起来缺少那么多功能为什么还要用function componet。<br>1.function component更易于编写阅读和测试<br>2.代码量更少，上手容易<br>3.因为没有状态，可以更好的实现容器和表现的分离，可以只负责表现层的逻辑，不用考虑因为复杂的逻辑去改变状态从而带来的麻烦，有利于代码复用。<br>4.react团队提倡使用</p>
+<h3 id="为什么要用class-component？"><a href="#为什么要用class-component？" class="headerlink" title="为什么要用class component？"></a>为什么要用class component？</h3><p>1.虽然function component 有很多好处，但是有些时候class component 还是不可替代的。<br>2.当需要实现一些容器组件的时候，需要改变内部状态来实现自组件的改变的时候。<br>3.当需要用到生命周期钩子函数实现一些功能的时候<br>4.当我们需要提升性能时，性能是一个很重要的问题，有些时候我们需要减少组件的渲染次数，我们就需要在组件内部用shouldComponentUpdate 方法来去判断，或者继承React.PureComponent 类（自动调用shouldComponentUpdate）来实现state和props的浅比较进行判断组件是否重新渲染。</p>
 
       
     </div>
@@ -104,13 +101,20 @@
     <div class="article-meta pull-left">
 
     
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/Blog/categories/前端开发/">前端开发</a>
+    </span>
+    
 
     
     
 
     <span class="post-tags">
       <i class="icon-tags"></i>
-        <a href="/Blog/tags/React-Native/">React-Native</a>
+        <a href="/Blog/tags/react/">react</a>
     </span>
     
 
@@ -126,71 +130,15 @@
 
   
     
-    <h3 class="article-title"><a href="/Blog/2020/11/16/CSS中margin和padding的用法/"><span>CSS中margin和padding的用法</span></a></h3>
+    <h3 class="article-title"><a href="/Blog/2020/11/16/Context总结/"><span>Context 总结</span></a></h3>
     
   
 
   <div class="article-top-meta">
     <span class="posted-on">
-      <a href="/Blog/2020/11/16/CSS中margin和padding的用法/" rel="bookmark">
-        <time class="entry-date published" datetime="2020-11-16T06:18:49.020Z">
+      <a href="/Blog/2020/11/16/Context总结/" rel="bookmark">
+        <time class="entry-date published" datetime="2020-11-16T10:22:35.715Z">
           2020-11-16
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p>CSS中，margin外间距分别一个值、两个值、三个值、四个值代码的意思：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">margin:10px;&#x2F;&#x2F;上、右、下、左</span><br><span class="line">margin:10px 5px;&#x2F;&#x2F;上下：10px,右左：5px</span><br><span class="line">margin:10px 5px 15px;&#x2F;&#x2F;上10px、右和左5px、下15px</span><br><span class="line">margin:10px 5px 15px 20px;&#x2F;&#x2F;上10px、右5px、下15px、左20px</span><br></pre></td></tr></table></figure>
-
-<p>CSS中，padding内间距分别一个值、两个值、三个值、四个值代码的意思：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">padding:10px;&#x2F;&#x2F;上、右、下、左</span><br><span class="line">padding:10px 5px;&#x2F;&#x2F;上下：10px,右左：5px</span><br><span class="line">padding:10px 5px 15px;&#x2F;&#x2F;上10px、右和左5px、下15px</span><br><span class="line">padding:10px 5px 15px 20px;&#x2F;&#x2F;上10px、右5px、下15px、左20px</span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-
-    
-    
-
-    <span class="post-tags">
-      <i class="icon-tags"></i>
-        <a href="/Blog/tags/CSS/">CSS</a>
-    </span>
-    
-
-    </div>
-
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/Blog/2020/10/30/Context总结/"><span>Context 总结</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/Blog/2020/10/30/Context总结/" rel="bookmark">
-        <time class="entry-date published" datetime="2020-10-30T09:51:55.431Z">
-          2020-10-30
         </time>
       </a>
     </span>
@@ -308,6 +256,13 @@
     <div class="article-meta pull-left">
 
     
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/Blog/categories/移动端开发/">移动端开发</a>
+    </span>
+    
 
     
     
@@ -330,15 +285,15 @@
 
   
     
-    <h3 class="article-title"><a href="/Blog/2020/10/29/Android 事件分发机制的设计与实现/"><span>Android 事件分发机制的设计与实现</span></a></h3>
+    <h3 class="article-title"><a href="/Blog/2020/11/16/Android 事件分发机制的设计与实现/"><span>Android 事件分发机制的设计与实现</span></a></h3>
     
   
 
   <div class="article-top-meta">
     <span class="posted-on">
-      <a href="/Blog/2020/10/29/Android 事件分发机制的设计与实现/" rel="bookmark">
-        <time class="entry-date published" datetime="2020-10-29T06:59:13.271Z">
-          2020-10-29
+      <a href="/Blog/2020/11/16/Android 事件分发机制的设计与实现/" rel="bookmark">
+        <time class="entry-date published" datetime="2020-11-16T10:22:35.703Z">
+          2020-11-16
         </time>
       </a>
     </span>
@@ -418,6 +373,13 @@
     <div class="article-meta pull-left">
 
     
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/Blog/categories/移动端开发/">移动端开发</a>
+    </span>
+    
 
     
     
@@ -440,15 +402,79 @@
 
   
     
-    <h3 class="article-title"><a href="/Blog/2020/10/29/Kotlin的几个常用关键字/"><span>Kotlin的几个常用关键字</span></a></h3>
+    <h3 class="article-title"><a href="/Blog/2020/11/16/CSS中margin和padding的用法/"><span>CSS中margin和padding的用法</span></a></h3>
     
   
 
   <div class="article-top-meta">
     <span class="posted-on">
-      <a href="/Blog/2020/10/29/Kotlin的几个常用关键字/" rel="bookmark">
-        <time class="entry-date published" datetime="2020-10-29T06:38:17.797Z">
-          2020-10-29
+      <a href="/Blog/2020/11/16/CSS中margin和padding的用法/" rel="bookmark">
+        <time class="entry-date published" datetime="2020-11-16T10:22:35.690Z">
+          2020-11-16
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>CSS中，margin外间距分别一个值、两个值、三个值、四个值代码的意思：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">margin:10px;&#x2F;&#x2F;上、右、下、左</span><br><span class="line">margin:10px 5px;&#x2F;&#x2F;上下：10px,右左：5px</span><br><span class="line">margin:10px 5px 15px;&#x2F;&#x2F;上10px、右和左5px、下15px</span><br><span class="line">margin:10px 5px 15px 20px;&#x2F;&#x2F;上10px、右5px、下15px、左20px</span><br></pre></td></tr></table></figure>
+
+<p>CSS中，padding内间距分别一个值、两个值、三个值、四个值代码的意思：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">padding:10px;&#x2F;&#x2F;上、右、下、左</span><br><span class="line">padding:10px 5px;&#x2F;&#x2F;上下：10px,右左：5px</span><br><span class="line">padding:10px 5px 15px;&#x2F;&#x2F;上10px、右和左5px、下15px</span><br><span class="line">padding:10px 5px 15px 20px;&#x2F;&#x2F;上10px、右5px、下15px、左20px</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/Blog/categories/前端开发/">前端开发</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/Blog/tags/CSS/">CSS</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/Blog/2020/11/16/Kotlin的几个常用关键字/"><span>Kotlin的几个常用关键字</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/Blog/2020/11/16/Kotlin的几个常用关键字/" rel="bookmark">
+        <time class="entry-date published" datetime="2020-11-16T10:22:35.671Z">
+          2020-11-16
         </time>
       </a>
     </span>
@@ -482,11 +508,12 @@
 <p><strong>8. companion object 伴随对象<br>在 kotlin 中不像 java ，它没有静态方法。在大多数情形下，建议只用包级别的函数。如果你要写一个没有实例类就可以调用的方法，但需要访问到类内部(比如说一个工厂方法)，你可以在你的类中声明一个伴随对象，这样你就可以像 java那样把它当做静态方法调用。</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">interface TestCompanion &#123;</span><br><span class="line"></span><br><span class="line">    companion object &#123;</span><br><span class="line">        const val HOST &#x3D; &quot;http:&#x2F;&#x2F;www.baidu.com&quot;</span><br><span class="line">        const val VERSION &#x3D; &quot;1.0&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><strong>9. is 类型检测及自动类型转换<br>使用 is 运算符检测一个表达式是否某类型的一个实例(类似于Java中的instanceof关键字)。</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">fun getStringLength(obj: Any): Int? &#123;</span><br><span class="line">  if (obj is String) &#123;</span><br><span class="line">    &#x2F;&#x2F; 做过类型判断以后，obj会被系统自动转换为String类型</span><br><span class="line">    return obj.length </span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F;在这里还有一种方法，与Java中instanceof不同，使用!is</span><br><span class="line">  &#x2F;&#x2F; if (obj !is String)&#123;</span><br><span class="line">  &#x2F;&#x2F;   &#x2F;&#x2F; XXX</span><br><span class="line">  &#x2F;&#x2F; &#125;</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; 这里的obj仍然是Any类型的引用</span><br><span class="line">  return null</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">fun getStringLength(obj: Any): Int? &#123;</span><br><span class="line">  if (obj is String) &#123;</span><br><span class="line">    &#x2F;&#x2F; 做过类型判断以后，obj会被系统自动转换为String类型</span><br><span class="line">    return obj.length</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F;在这里还有一种方法，与Java中instanceof不同，使用!is</span><br><span class="line">  &#x2F;&#x2F; if (obj !is String)&#123;</span><br><span class="line">  &#x2F;&#x2F;   &#x2F;&#x2F; XXX</span><br><span class="line">  &#x2F;&#x2F; &#125;</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; 这里的obj仍然是Any类型的引用</span><br><span class="line">  return null</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>或者</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">fun getStringLength(obj: Any): Int? &#123;</span><br><span class="line">  if (obj !is String)</span><br><span class="line">    return null</span><br><span class="line">  &#x2F;&#x2F; 在这个分支中, &#96;obj&#96; 的类型会被自动转换为 &#96;String&#96;</span><br><span class="line">  return obj.length</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>甚至还可以</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">fun getStringLength(obj: Any): Int? &#123;</span><br><span class="line">  &#x2F;&#x2F; 在 &#96;&amp;&amp;&#96; 运算符的右侧, &#96;obj&#96; 的类型会被自动转换为 &#96;String&#96;</span><br><span class="line">  if (obj is String &amp;&amp; obj.length &gt; 0)</span><br><span class="line">    return obj.length</span><br><span class="line">  return null</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
       
     </div>
 
@@ -495,6 +522,13 @@
   <div class="article-footer">
     <div class="article-meta pull-left">
 
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/Blog/categories/移动端开发/">移动端开发</a>
+    </span>
     
 
     
@@ -518,15 +552,15 @@
 
   
     
-    <h3 class="article-title"><a href="/Blog/2020/10/29/React class & function component 的区别/"><span>function和class component</span></a></h3>
+    <h3 class="article-title"><a href="/Blog/2020/11/16/8081端口被占用/"><span>8081端口被占用</span></a></h3>
     
   
 
   <div class="article-top-meta">
     <span class="posted-on">
-      <a href="/Blog/2020/10/29/React class & function component 的区别/" rel="bookmark">
-        <time class="entry-date published" datetime="2020-10-29T05:35:56.423Z">
-          2020-10-29
+      <a href="/Blog/2020/11/16/8081端口被占用/" rel="bookmark">
+        <time class="entry-date published" datetime="2020-11-16T06:30:51.865Z">
+          2020-11-16
         </time>
       </a>
     </span>
@@ -538,16 +572,27 @@
   <div class="article-content">
     <div class="entry">
       
-        <h3 id="function和class-component"><a href="#function和class-component" class="headerlink" title="function和class component"></a>function和class component</h3><p>首先看下function component：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function Welcome(props) &#123;</span><br><span class="line">  return &lt;h1&gt;Hello, &#123;props.name&#125;&lt;&#x2F;h1&gt;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>它就是一个函数接受一个props参数返回了一个jsx语法的标签，接下来看下class 语法的component</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">class Welcome extends React.Component &#123;</span><br><span class="line">  render() &#123;</span><br><span class="line">    return &lt;h1&gt;Hello, &#123;this.props.name&#125;&lt;&#x2F;h1&gt;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这两个component是等效的。</p>
-<h3 id="function和class-component-的区别"><a href="#function和class-component-的区别" class="headerlink" title="function和class component 的区别"></a>function和class component 的区别</h3><p>1.syntax 语法：functional component语法更简单，只需要传入一个props参数，返回一个react片段。class component 要求先继承React.Component然后常见一个render方法，在render里面返回react片段。</p>
-<p>2.state 状态：因为function component 知识一个普通的函数所以不可以在其中用this.state , setState(),这也是它被叫做无状态组件的原因。所以一个组件需要用到状态的时候要用到class component。</p>
-<p>3.lifecycle hooks 生命周期：function component 不具有生命周期，因为所有的生命周期钩子函数均来自于React.Component。所以当一个组件需要生命周期钩子的时候我们也需要class component。</p>
-<h3 id="为什么要用function-component？"><a href="#为什么要用function-component？" class="headerlink" title="为什么要用function component？"></a>为什么要用function component？</h3><p>function component和class component 比起来缺少那么多功能为什么还要用function componet。<br>1.function component更易于编写阅读和测试<br>2.代码量更少，上手容易<br>3.因为没有状态，可以更好的实现容器和表现的分离，可以只负责表现层的逻辑，不用考虑因为复杂的逻辑去改变状态从而带来的麻烦，有利于代码复用。<br>4.react团队提倡使用</p>
-<h3 id="为什么要用class-component？"><a href="#为什么要用class-component？" class="headerlink" title="为什么要用class component？"></a>为什么要用class component？</h3><p>1.虽然function component 有很多好处，但是有些时候class component 还是不可替代的。<br>2.当需要实现一些容器组件的时候，需要改变内部状态来实现自组件的改变的时候。<br>3.当需要用到生命周期钩子函数实现一些功能的时候<br>4.当我们需要提升性能时，性能是一个很重要的问题，有些时候我们需要减少组件的渲染次数，我们就需要在组件内部用shouldComponentUpdate 方法来去判断，或者继承React.PureComponent 类（自动调用shouldComponentUpdate）来实现state和props的浅比较进行判断组件是否重新渲染。</p>
+        <ol>
+<li><p>控制台错误情况</p>
+<p><code>ERROR  Metro Bundler can&#39;t listen on port 8081</code></p>
+</li>
+<li><p>解决办法：kill 占用8081端口的其他应用</p>
+</li>
+</ol>
+<p>参考：<a target="_blank" rel="noopener" href="https://facebook.github.io/react-native/docs/troubleshooting.html">https://facebook.github.io/react-native/docs/troubleshooting.html</a></p>
+<ul>
+<li>a. 找到占用端口的应用</li>
+</ul>
+<p><code>$ sudo lsof -i :8081</code></p>
+<ul>
+<li>b. kill （40247 是应用的 PID）</li>
+</ul>
+<p><code>kill -9 40247</code></p>
+<ul>
+<li>c. 然后执行</li>
+</ul>
+<p><code>react-native start</code></p>
+<p>Android手机连接电脑无法load代码时在终端执行命令： <code>adb reverse tcp:8081 tcp:8081</code></p>
 
       
     </div>
@@ -564,7 +609,7 @@
 
     <span class="post-tags">
       <i class="icon-tags"></i>
-        <a href="/Blog/tags/react/">react</a>
+        <a href="/Blog/tags/React-Native/">React-Native</a>
     </span>
     
 
