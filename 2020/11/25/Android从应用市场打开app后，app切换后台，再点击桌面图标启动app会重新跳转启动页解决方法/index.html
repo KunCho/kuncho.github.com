@@ -1,0 +1,144 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Android 从应用市场打开app后，app切换后台，再点击桌面图标启动app会重新跳转启动页解决方法 | 前端日常开发记录</title>
+
+  
+
+  
+  <meta name="description" content="1. 出现原因应用A 通过包名启动应用B,此时的intent是启动意图，应用B B_1页面启动后，启动主页B_2，同时关闭B_1，返回多级调整【B_2_B_3…&amp;gt;Bn】返回桌面，点击图标启动B，此时的intent是启动意图复用创建时的intent，重新启动B，【B_2_B_3…&amp;gt;B_1】">
+  
+
+  
+  
+  <meta name="keywords" content="Android">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="Android 从应用市场打开app后，app切换后台，再点击桌面图标启动app会重新跳转启动页解决方法"/>
+
+  <meta property="og:site_name" content="前端日常开发记录"/>
+
+  
+  <meta property="og:image" content="/Blog/favicon.ico"/>
+  
+
+  <link href="/Blog/favicon.ico" rel="icon">
+  <link rel="alternate" href="/Blog/atom.xml" title="前端日常开发记录" type="application/atom+xml">
+  <link rel="stylesheet" href="/Blog/css/style.css" media="screen" type="text/css">
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/Blog/">前端日常开发记录</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/Blog/">主页</a></li>
+      
+        <li><a href="/Blog/archives">归档</a></li>
+      
+        <li><a href="/Blog/categories">分类</a></li>
+      
+        <li><a href="/Blog/tags">标签</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>Android 从应用市场打开app后，app切换后台，再点击桌面图标启动app会重新跳转启动页解决方法</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/Blog/2020/11/25/Android从应用市场打开app后，app切换后台，再点击桌面图标启动app会重新跳转启动页解决方法/" rel="bookmark">
+        <time class="entry-date published" datetime="2020-11-25T09:37:31.243Z">
+          2020-11-25
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h4 id="1-出现原因"><a href="#1-出现原因" class="headerlink" title="1. 出现原因"></a>1. 出现原因</h4><p>应用A 通过包名启动应用B,此时的intent是启动意图，<br>应用B B_1页面启动后，启动主页B_2，同时关闭B_1，返回多级调整【B_2_B_3…&gt;Bn】<br>返回桌面，点击图标启动B，此时的intent是启动意图复用创建时的intent，重新启动B，【B_2_B_3…&gt;B_1】，因为B_2的启动模式singleTask，栈内唯一，B_2重用，并移除栈上的B_n等页面，造成上层的页面关闭，而B_2仍然正常，即回到应用主页。</p>
+<h4 id="2-修复方式"><a href="#2-修复方式" class="headerlink" title="2. 修复方式"></a>2. 修复方式</h4><p>启动B_1页面时，判断其栈内是否有其他页面使用，使用isTaskRoot()判断是否是栈底的页面，仅且正常开启才会在栈底，而当从其他app跳转时，如果栈内已有活动页面，不做处理即可。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public class SplashActivity extends BaseActivity &#123;</span><br><span class="line">@Override</span><br><span class="line">protected void onCreate(@Nullable Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        if (!isTaskRoot()) &#123;</span><br><span class="line">            finish();</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样栈顶的SplashActivity在还未执行其他代码的情况下就finish()掉了，此时会显示栈顶的MainActivity。</p>
+<p>每次启动Intent导致新创建Task的时候，该Task会记录导致其创建的Intent；而如果后续需要有一个新的与创建Intent完全一致（完全一致定位为：启动类，action、category等等全部一样，不可多项也不可缺少），那么该Intent并不会触发Activity的新建启动，而只会将已经存在的对应Task移到前台；这也就是为什么桌面会在再次点击图标时将后台任务挪到前台而不是重新启动App的实现。</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/Blog/tags/Android/">Android</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  
+
+
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2020 前端日常开发记录
+    
+  </p>
+</footer>
+    
+    
+  </div>
+</div>
+</body>
+</html>

@@ -61,6 +61,137 @@
 
   
     
+    <h3 class="article-title"><a href="/Blog/2020/11/25/Android从应用市场打开app后，app切换后台，再点击桌面图标启动app会重新跳转启动页解决方法/"><span>Android 从应用市场打开app后，app切换后台，再点击桌面图标启动app会重新跳转启动页解决方法</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/Blog/2020/11/25/Android从应用市场打开app后，app切换后台，再点击桌面图标启动app会重新跳转启动页解决方法/" rel="bookmark">
+        <time class="entry-date published" datetime="2020-11-25T09:37:31.243Z">
+          2020-11-25
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h4 id="1-出现原因"><a href="#1-出现原因" class="headerlink" title="1. 出现原因"></a>1. 出现原因</h4><p>应用A 通过包名启动应用B,此时的intent是启动意图，<br>应用B B_1页面启动后，启动主页B_2，同时关闭B_1，返回多级调整【B_2_B_3…&gt;Bn】<br>返回桌面，点击图标启动B，此时的intent是启动意图复用创建时的intent，重新启动B，【B_2_B_3…&gt;B_1】，因为B_2的启动模式singleTask，栈内唯一，B_2重用，并移除栈上的B_n等页面，造成上层的页面关闭，而B_2仍然正常，即回到应用主页。</p>
+<h4 id="2-修复方式"><a href="#2-修复方式" class="headerlink" title="2. 修复方式"></a>2. 修复方式</h4><p>启动B_1页面时，判断其栈内是否有其他页面使用，使用isTaskRoot()判断是否是栈底的页面，仅且正常开启才会在栈底，而当从其他app跳转时，如果栈内已有活动页面，不做处理即可。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public class SplashActivity extends BaseActivity &#123;</span><br><span class="line">@Override</span><br><span class="line">protected void onCreate(@Nullable Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        if (!isTaskRoot()) &#123;</span><br><span class="line">            finish();</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样栈顶的SplashActivity在还未执行其他代码的情况下就finish()掉了，此时会显示栈顶的MainActivity。</p>
+<p>每次启动Intent导致新创建Task的时候，该Task会记录导致其创建的Intent；而如果后续需要有一个新的与创建Intent完全一致（完全一致定位为：启动类，action、category等等全部一样，不可多项也不可缺少），那么该Intent并不会触发Activity的新建启动，而只会将已经存在的对应Task移到前台；这也就是为什么桌面会在再次点击图标时将后台任务挪到前台而不是重新启动App的实现。</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/Blog/tags/Android/">Android</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/Blog/2020/11/25/8081端口被占用/"><span>8081端口被占用</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/Blog/2020/11/25/8081端口被占用/" rel="bookmark">
+        <time class="entry-date published" datetime="2020-11-25T09:37:16.792Z">
+          2020-11-25
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <ol>
+<li><p>控制台错误情况</p>
+<p><code>ERROR  Metro Bundler can&#39;t listen on port 8081</code></p>
+</li>
+<li><p>解决办法：kill 占用8081端口的其他应用</p>
+</li>
+</ol>
+<p>参考：<a target="_blank" rel="noopener" href="https://facebook.github.io/react-native/docs/troubleshooting.html">https://facebook.github.io/react-native/docs/troubleshooting.html</a></p>
+<ul>
+<li>a. 找到占用端口的应用</li>
+</ul>
+<p><code>$ sudo lsof -i :8081</code></p>
+<ul>
+<li>b. kill （40247 是应用的 PID）</li>
+</ul>
+<p><code>kill -9 40247</code></p>
+<ul>
+<li>c. 然后执行</li>
+</ul>
+<p><code>react-native start</code></p>
+<p>Android手机连接电脑无法load代码时在终端执行命令： <code>adb reverse tcp:8081 tcp:8081</code></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/Blog/tags/React-Native/">React-Native</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/Blog/2020/11/16/React class & function component 的区别/"><span>function和class component</span></a></h3>
     
   
@@ -537,79 +668,6 @@
     <span class="post-tags">
       <i class="icon-tags"></i>
         <a href="/Blog/tags/kotlin/">kotlin</a>
-    </span>
-    
-
-    </div>
-
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/Blog/2020/11/16/8081端口被占用/"><span>8081端口被占用</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/Blog/2020/11/16/8081端口被占用/" rel="bookmark">
-        <time class="entry-date published" datetime="2020-11-16T06:30:51.865Z">
-          2020-11-16
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <ol>
-<li><p>控制台错误情况</p>
-<p><code>ERROR  Metro Bundler can&#39;t listen on port 8081</code></p>
-</li>
-<li><p>解决办法：kill 占用8081端口的其他应用</p>
-</li>
-</ol>
-<p>参考：<a target="_blank" rel="noopener" href="https://facebook.github.io/react-native/docs/troubleshooting.html">https://facebook.github.io/react-native/docs/troubleshooting.html</a></p>
-<ul>
-<li>a. 找到占用端口的应用</li>
-</ul>
-<p><code>$ sudo lsof -i :8081</code></p>
-<ul>
-<li>b. kill （40247 是应用的 PID）</li>
-</ul>
-<p><code>kill -9 40247</code></p>
-<ul>
-<li>c. 然后执行</li>
-</ul>
-<p><code>react-native start</code></p>
-<p>Android手机连接电脑无法load代码时在终端执行命令： <code>adb reverse tcp:8081 tcp:8081</code></p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-
-    
-    
-
-    <span class="post-tags">
-      <i class="icon-tags"></i>
-        <a href="/Blog/tags/React-Native/">React-Native</a>
     </span>
     
 
