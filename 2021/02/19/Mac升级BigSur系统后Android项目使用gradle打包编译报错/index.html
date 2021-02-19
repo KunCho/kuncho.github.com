@@ -1,0 +1,159 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Mac 升级 Big Sur系统后后项目打包报错：Make sure Gradle is running on a JDK, not JRE. | 前端日常开发记录</title>
+
+  
+
+  
+  <meta name="description" content="Mac升级系统至Big Sur后，Android项目使用gradle打包的时候编译失败，提示某些第三方编译报错，文件不存在，在终端中执行下面命令，查询具体报错原因：gradle assembleDebug --info
+最主要错误是如下原因：
+1Kotlin could not find the r">
+  
+
+  
+  
+  <meta name="keywords" content="Android,Mac">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="Mac 升级 Big Sur系统后后项目打包报错：Make sure Gradle is running on a JDK, not JRE."/>
+
+  <meta property="og:site_name" content="前端日常开发记录"/>
+
+  
+  <meta property="og:image" content="/Blog/favicon.ico"/>
+  
+
+  <link href="/Blog/favicon.ico" rel="icon">
+  <link rel="alternate" href="/Blog/atom.xml" title="前端日常开发记录" type="application/atom+xml">
+  <link rel="stylesheet" href="/Blog/css/style.css" media="screen" type="text/css">
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/Blog/">前端日常开发记录</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/Blog/">主页</a></li>
+      
+        <li><a href="/Blog/archives">归档</a></li>
+      
+        <li><a href="/Blog/categories">分类</a></li>
+      
+        <li><a href="/Blog/tags">标签</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>Mac 升级 Big Sur系统后后项目打包报错：Make sure Gradle is running on a JDK, not JRE.</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/Blog/2021/02/19/Mac升级BigSur系统后Android项目使用gradle打包编译报错/" rel="bookmark">
+        <time class="entry-date published" datetime="2021-02-19T06:01:12.766Z">
+          2021-02-19
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>Mac升级系统至Big Sur后，Android项目使用gradle打包的时候编译失败，提示某些第三方编译报错，文件不存在，<br>在终端中执行下面命令，查询具体报错原因：<br><code>gradle assembleDebug --info</code></p>
+<p>最主要错误是如下原因：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Kotlin could not find the require JDK tools in the Java installtion &#39;&#x2F;Library&#x2F;Internet Plug-Ins&#x2F;JavaAppletPlugin.plugin&#x2F;Contents&#x2F;Home&#39; used by Gradle. Make sure is running on a JDK, not JRE.</span><br></pre></td></tr></table></figure>
+
+<p>网上搜寻原因提示是没有配置JAVA_HOME环境变量导致的，Mac电脑出厂是默认安装好JDK的，正常情况不需要像Windows系统那样重新配置JAVA环境变量。升级系统后，提示报错，按照下面方式重新配置一下JAVA_HOME环境变量：</p>
+<p>终端下运行如下命令，<br>获取JAVA的安装路径：/usr/libexec/java_home -V</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Matching Java Virtual Machines (2):</span><br><span class="line">    1.8.261.12 (x86_64) &quot;Oracle Corporation&quot; - &quot;Java&quot; &#x2F;Library&#x2F;Internet Plug-Ins&#x2F;JavaAppletPlugin.plugin&#x2F;Contents&#x2F;Home</span><br><span class="line">    1.8.0_40 (x86_64) &quot;Oracle Corporation&quot; - &quot;Java SE 8&quot; &#x2F;Library&#x2F;Java&#x2F;JavaVirtualMachines&#x2F;jdk1.8.0_40.jdk&#x2F;Contents&#x2F;Home</span><br><span class="line">&#x2F;Library&#x2F;Java&#x2F;JavaVirtualMachines&#x2F;jdk1.8.0_40.jdk&#x2F;Contents&#x2F;Home</span><br></pre></td></tr></table></figure>
+
+<p>终端下打开环境变量配置文件：<br><code>open .bash_profile</code><br>新增如下配置，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export JAVA_HOME&#x3D;&#x2F;Library&#x2F;Java&#x2F;JavaVirtualMachines&#x2F;jdk1.8.0_40.jdk&#x2F;Contents&#x2F;Home</span><br><span class="line">export CLASSPAHT&#x3D;.:$JAVA_HOME&#x2F;lib&#x2F;dt.jar:$JAVA_HOME&#x2F;lib&#x2F;tools.jar</span><br><span class="line">export PATH&#x3D;$JAVA_HOME&#x2F;bin:$PATH:</span><br></pre></td></tr></table></figure>
+<p>cmd+s、cmd+q保存退出后执行下面命令使之生效</p>
+<p><code>source ~/.bash_profile</code><br>输入 <code>echo $JAVA_HOME</code>验证是否生效。<br>重新打开Android Studio，编译项目，恢复正常。</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/Blog/categories/移动端开发/">移动端开发</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/Blog/tags/Android/">Android</a><a href="/Blog/tags/Mac/">Mac</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  
+
+
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2021 前端日常开发记录
+    
+  </p>
+</footer>
+    
+    
+  </div>
+</div>
+</body>
+</html>
