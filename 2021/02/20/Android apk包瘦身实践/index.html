@@ -1,0 +1,205 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Android apk包瘦身实践 | 前端日常开发记录</title>
+
+  
+
+  
+  <meta name="description" content="为什么要瘦身优化1.1 瘦身原因Apk的大小对于用户是否选择下载应用起着至关重要的影响，也会是成为用户活跃度的原因之一。
+1.2 APK的组成
+lib 存放so文件，有armeabi armeabi-v7a arm64-v8a x86 mips x86-64。一般只需要支持armeabi和x86即可">
+  
+
+  
+  
+  <meta name="keywords" content="Android">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="Android apk包瘦身实践"/>
+
+  <meta property="og:site_name" content="前端日常开发记录"/>
+
+  
+  <meta property="og:image" content="/Blog/favicon.ico"/>
+  
+
+  <link href="/Blog/favicon.ico" rel="icon">
+  <link rel="alternate" href="/Blog/atom.xml" title="前端日常开发记录" type="application/atom+xml">
+  <link rel="stylesheet" href="/Blog/css/style.css" media="screen" type="text/css">
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/Blog/">前端日常开发记录</a>
+    </h1>
+    <p class="site-description"></p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/Blog/">主页</a></li>
+      
+        <li><a href="/Blog/archives">归档</a></li>
+      
+        <li><a href="/Blog/categories">分类</a></li>
+      
+        <li><a href="/Blog/tags">标签</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>Android apk包瘦身实践</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/Blog/2021/02/20/Android apk包瘦身实践/" rel="bookmark">
+        <time class="entry-date published" datetime="2021-02-20T08:14:26.949Z">
+          2021-02-20
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h4 id="为什么要瘦身优化"><a href="#为什么要瘦身优化" class="headerlink" title="为什么要瘦身优化"></a>为什么要瘦身优化</h4><h5 id="1-1-瘦身原因"><a href="#1-1-瘦身原因" class="headerlink" title="1.1 瘦身原因"></a>1.1 瘦身原因</h5><p>Apk的大小对于用户是否选择下载应用起着至关重要的影响，也会是成为用户活跃度的原因之一。</p>
+<h5 id="1-2-APK的组成"><a href="#1-2-APK的组成" class="headerlink" title="1.2 APK的组成"></a>1.2 APK的组成</h5><ul>
+<li>lib 存放so文件，有armeabi armeabi-v7a arm64-v8a x86 mips x86-64。一般只需要支持armeabi和x86即可；</li>
+<li>res：存放编译后的资源文件 例如drawable layout等；</li>
+<li>assets：应用程序的资源，应用程序可以使用AssetManager来检索该资源；</li>
+<li>MEAT-INFO：存在于已经签名的apk中，包含了apk中左右的文件的签名摘要等信息；</li>
+<li>classes.dex：Java Class 被Dex编译后可提供给Dalvik/ART虚拟机所理解的文件格式；</li>
+<li>resources.arsc 编译后的二进制资源文件；</li>
+<li>AndroidManifest.xml Android中清单文件</li>
+</ul>
+<h5 id="1-3-瘦身优化3点方法论"><a href="#1-3-瘦身优化3点方法论" class="headerlink" title="1.3 瘦身优化3点方法论"></a>1.3 瘦身优化3点方法论</h5><ul>
+<li>删：删除无用的代码和资源</li>
+<li>压：压缩代码和资源</li>
+<li>移：实在不行就抽离出，动态加载，动态下发。</li>
+</ul>
+<p>目前项目中做了哪些优化：</p>
+<ul>
+<li>代码混淆</li>
+<li>配置特定架构的so库</li>
+<li>配置资源打包</li>
+<li>压缩资源</li>
+</ul>
+<h4 id="1-混淆"><a href="#1-混淆" class="headerlink" title="1 混淆"></a>1 混淆</h4><p>项目做的时间长了，代码中肯定会有一些没有用到的资源文件，删除这些无用的资源当然也可以起到瘦身的作用<br>前面知道了Lint检查出来，删除后是是物理删除，删了之后就找不到了，比较危险，比如我们代码中是通过反射找到某些资源，而这些资源会被上面的操作删除掉，最终导致应用崩溃。<br>比较安全的优化策略是使用资源压缩</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">buildTypes &#123;</span><br><span class="line">        release &#123;</span><br><span class="line">            &#x2F;&#x2F; 源代码混淆开启</span><br><span class="line">            minifyEnabled true</span><br><span class="line">            &#x2F;&#x2F; 启动资源压缩</span><br><span class="line">            shrinkResources true</span><br><span class="line">            proguardFiles getDefaultProguardFile(&#39;proguard-android-optimize.txt&#39;), &#39;proguard-rules.pro&#39;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h5 id="1-1-代码混淆"><a href="#1-1-代码混淆" class="headerlink" title="1.1 代码混淆"></a>1.1 代码混淆</h5><ul>
+<li>代码中各个元素改成无意义的名字</li>
+<li>以更难理解的形式重写部分逻辑</li>
+<li>打乱代码格式</li>
+</ul>
+<p>Proguard 代码中元素名称改短 取出无用元素等。</p>
+<p>在混淆的时候，不要乱keep，有的类可能不需要keep<br>当使用Android Gradle 插件 3.4.0 或更高版本编译您的项目时，Gradle插件不再使用 ProGuard 执行编译时代码优化，而是与 R8 编译器一起使用，共同处理以下编译时任务<br>代码压缩:从应用及其库依赖项中检测并安全地移除未使用的类、字段、方法和属性资源压缩：从应用中移除未使用的资源，包括应用的库依赖项中未使用的资源。此功能可与代码压缩结合使用，这样一来，移除未使用的代码后，也可以安全地移除不再引用的任何资源。混淆：缩短类和成员的名称，从而减小 DEX 文件大小。优化：检查并重写代码，以进一步减小应用 DEX 文件的大小。例如，如果 R8 检测到从未采用过给定 if/else 语句的 else {} 分支，R8 便会移除 else {} 分支的代码。</p>
+<h5 id="1-2-资源压缩"><a href="#1-2-资源压缩" class="headerlink" title="1.2 资源压缩"></a>1.2 资源压缩</h5><p>shrinkResources可以压缩资源，比如可以把一些无用的资源压缩成只有名字没有内容的文件<br>只有开启了混淆之后使用这个才能有效果，因为混淆之后会把一些无用的类删掉，那么无用的类中引用的资源也就可以放心的压缩了。<br>如果要保留或者压缩特定的资源，可以子在res/raw/文件夹下创建一个keep.xml文件内如可以如下：
+    </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;utf-8&quot;?&gt;</span><br><span class="line">    &lt;resources xmlns:tools&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;tools&quot;</span><br><span class="line">        tools:keep&#x3D;&quot;@layout&#x2F;l_used*_c,@layout&#x2F;l_used_a,@layout&#x2F;l_used_b*&quot;</span><br><span class="line">        tools:discard&#x3D;&quot;@layout&#x2F;unused2&quot; &#x2F;&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>tools:keep 属性中指定要保留的每个资源</li>
+<li>tools:discard 属性中指定要舍弃的每个资源</li>
+<li>这两个属性都接受逗号分隔的资源名称列表。也可以将星号字符用作通配符。</li>
+</ul>
+<p>只是开启shrinkResources，系统会使用一种比较安全的模式去压缩资源，对于一些不确定判断都会选择不去压缩比如，如果代码中或者某个库中使用了Resources.getIdentifier()，这就说明我们的代码是通过动态生成的字符串来查找资源id，这时候资源压缩器就会开启防御行为，把所有相关的资源都标记为使用，不会压缩比如下面的代码就会把所有的以img_为前缀的资源都标记为已用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">String name &#x3D; String.format(&quot;img_%1d&quot;, angle + 1);</span><br><span class="line"> res &#x3D; getResources().getIdentifier(name, &quot;drawable&quot;, getPackageName());</span><br></pre></td></tr></table></figure>
+<p>资源压缩器还会浏览代码以及各种 <code>res/raw/</code> 资源中的所有字符串常量，查找格式类似于 file:///android_res/drawable//ic_plus_anim_016.png 的资源网址。如果它找到这样的字符串，或发现一些其他字符串看似可用来构建这样的网址，就不会将它们移除。<br>如果想要完全压缩，停用这种安全模式，可以在res/raw/文件夹下创建一个keep.xml文件来开启严苛模式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;utf-8&quot;?&gt;</span><br><span class="line">    &lt;resources xmlns:tools&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;tools&quot;</span><br><span class="line">        tools:shrinkMode&#x3D;&quot;strict&quot; &#x2F;&gt;</span><br></pre></td></tr></table></figure>
+<p>开启严苛模式之后，如果代码中还是用了上面Resources.getIdentifier()方式来查找资源，就必须在keep.xml中添加keep属性，把所要找的资源keep住。</p>
+<h4 id="2-配置so库"><a href="#2-配置so库" class="headerlink" title="2 配置so库"></a>2 配置so库</h4><p>如果项目中使用了第三方SDK或者NDK，如果不配置cpu架构，可能就会导入全部的so库文件，这时候可以在gradle中配置，选择特定的so库打包到apk中，这块瘦身效果是很可观的。配置方式：app-&gt;build.gradle-&gt;android-&gt;defaultConfig中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">defaultConfig &#123;</span><br><span class="line">        ...</span><br><span class="line">        &#x2F;&#x2F; 配置so库架构（真机：arm，模拟器：x86）</span><br><span class="line">        ndk &#123;</span><br><span class="line">            abiFilters(&#39;armeabi&#39;,&#39;armeabi-v7a&#39;)</span><br><span class="line">        &#125;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>那该选择那些库呢？<br>x86_64兼容x86<br>armeabi几乎可以兼容所有机型<br>armeabi-v7a兼容armeabi<br>arm64-v8a兼容armeabi-v7a<br>x86一般是模拟器所以我们可以只留一份armeabi，arm64-v8a或者armeabi-v7a中的一个即可。现在是主流手机基本都是armeabi-v7a以上了。</p>
+<p>提供so库的时候，要么全给要么不给。不能arm64-v8a文件夹中给两个so库armeabi-v7a文件夹中给一个so库<br>对于cpu敏感的so库，我们可以在armeabi-v7a中放一套v8a的库，根据CPU的架构来动态的选择使用哪个<br>也可以构建的时候分包，利用应用市场来动态分发（google play）<br>如果项目中用的so库比较多，使用此过滤方法瘦身效果非常明显</p>
+<h4 id="3-配置资源打包"><a href="#3-配置资源打包" class="headerlink" title="3 配置资源打包"></a>3 配置资源打包</h4><p>在app下的build.gradle文件中的defaultConfig 闭包中配置下面</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">defaultConfig &#123;</span><br><span class="line">        ...</span><br><span class="line">        &#x2F;&#x2F; 只保留指定和默认资源</span><br><span class="line">        resConfigs(&#39;zh-rCN&#39;, &#39;ko&#39;)</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样配置有什么好处呢？我们知道APK打包之后，资源文件会映射到resources.arsc文件中，我们使用AndroidStudio来查看这个apk中的resources.arsc文件中的string文件，可以看到下图中的样子。<br><img src="https://gjscrm-1256038144.cos.ap-beijing.myqcloud.com/common/1613809907027/51a817e3-0ee7-4055-a471-804623f78e72.png" alt="image0" title="截图"></p>
+<p>平时开发的时候，我们都会把一些写死的文字放到string.xml文件中，上图中可以看到，Android中默认会把我们的string.xml文件中的数据翻译成几十种国家的语言，相当于平白多出了几十个string.xml文件，而我们的应用可能只需要一两种语言就可以了。<br>加上前面的配置，就能将语言只保留指定资源和默认资源。效果如下图：<br><img src="https://gjscrm-1256038144.cos.ap-beijing.myqcloud.com/common/1613810021603/e96a1304-7d0b-43c5-8aa7-8cf8c9feca52.png" alt="image1" title="截图"></p>
+<h4 id="4-图片资源压缩相关"><a href="#4-图片资源压缩相关" class="headerlink" title="4 图片资源压缩相关"></a>4 图片资源压缩相关</h4><h5 id="4-1-使用webp格式"><a href="#4-1-使用webp格式" class="headerlink" title="4.1 使用webp格式"></a>4.1 使用webp格式</h5><p>webp是谷歌提供的一种有损压缩格式，这种图片格式相比png和jpg格式的图片损失的质量几乎可以忽略不计，但是压缩之后的图片体积却比png或者jpg小很多。<br>AndridStudio中就有直接将png和jpg格式的图转换成webp格式的图片的功能。右键想要转化的图片，在弹出菜单中点击convert to webp条目就会进入转化的界面，默认是压缩为75%的质量，可以自己调节。有时候几M的图片可以压缩成几百kb而且清晰度肉眼几乎看不出来，瘦身效果非常棒。（如果想要一次转化多张图片就在文件夹上右键点击转换，<strong>但是有些图片转化后变大</strong>）<br>这块可以制定一定的策略进行处理。<br>在Android Studio中安装下面的TinyPng插件对图片进行初次压缩，这个插件不需要配置tinyPNG的API key，可以免费使用。<br><img src="https://gjscrm-1256038144.cos.ap-beijing.myqcloud.com/common/1613810160521/bc01ab30-9746-4088-b190-6825e364d0c7.png" alt="image2" title="截图"><br>安装后重新启动AS，选择Tools中安装的插件，选择图片压缩。<br><img src="https://gjscrm-1256038144.cos.ap-beijing.myqcloud.com/common/1613810698470/eeb7f917-5ca4-474a-99c2-ff6dd36805c8.png" alt="image3" title="截图"><br>目前我在项目中集成了<code>McImage</code>资源优化工具，这个工具可以将png图片按照配置策略进行webp格式的转换。<br>附上使用方法<a target="_blank" rel="noopener" href="https://github.com/smallSohoSolo/McImage/blob/master/README-CN.md">中文文档</a></p>
+<p>下面是实测使用情况：<br>未使用工具时APP下载大小37.5mb;<br>使用工具编译打包的APP下载大小达到34mb;</p>
+<h5 id="4-2-使用纯色图片"><a href="#4-2-使用纯色图片" class="headerlink" title="4.2 使用纯色图片"></a>4.2 使用纯色图片</h5><p>如果项目中用到了纯色图片，可以使用代码实现 比如shape或者自定义view</p>
+<h4 id="5-其他"><a href="#5-其他" class="headerlink" title="5 其他"></a>5 其他</h4><p>减少Enum枚举的使用 每减少一个枚举可以减少1k左右<br>优化引用的库，基础库统一 选择更小的库<br>AndroidStudio插件：Android Methods Count ，使用这个插件可以看到引入库的方法数量</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/Blog/categories/移动端开发/">移动端开发</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/Blog/tags/Android/">Android</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  
+
+
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2021 前端日常开发记录
+    
+  </p>
+</footer>
+    
+    
+  </div>
+</div>
+</body>
+</html>
