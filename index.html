@@ -81,7 +81,7 @@
   <div class="article-content">
     <div class="entry">
       
-        <h1 id="TestTransform"><a href="#TestTransform" class="headerlink" title="TestTransform"></a>TestTransform</h1><p>我们先来看下Android应用程序打包流程：<br><img src="https://gj-prod-1256038144.cos.ap-beijing.myqcloud.com/common/1620543113363/2de3842b-7449-46e4-b44e-47d19a8f9e8c.png" alt="image.png"></p>
+        <h1 id="TestTransform"><a href="#TestTransform" class="headerlink" title="TestTransform"></a>TestTransform</h1><p>先来看下Android应用程序打包流程：<br><img src="https://gj-prod-1256038144.cos.ap-beijing.myqcloud.com/common/1620543113363/2de3842b-7449-46e4-b44e-47d19a8f9e8c.png" alt="image.png"></p>
 <p>通过上图可知，我们只要在图中红色箭头处拦截（生成class文件之后，dex文件之前），就可以拿到当前应用程序中所有的.class文件，再去借助ASM之类的库，就可以遍历这些.class文件中所有方法，再根据一定的条件找到需要的目标方法，最后进行修改并保存，就可以插入我们的埋点代码。</p>
 <p>Google从 Android Gradle 1.5.0 开始，提供了Transform API。通过Transform API，允许第三方以插件的形式，在Android应用程序打包成dex文件之前的编译过程中操作.class文件。我们只要实现一套Transform，去遍历所有.class文件的所有方法，然后进行修改（在特定的listener回调中插入埋点代码），再对源文件进行替换，即可以达到插入代码的目的。</p>
 <h2 id="Gradle-Transform概述"><a href="#Gradle-Transform概述" class="headerlink" title="Gradle Transform概述"></a>Gradle Transform概述</h2><p>Gradle Transform是Android官方提供给开发者在项目构建阶段（.class -&gt; .dex转换期间）用来修改.class文件的一套标准API，即把输入的.class文件转变成目标字节码文件。目前比较经典的应用是字节码插桩、代码注入等。</p>
